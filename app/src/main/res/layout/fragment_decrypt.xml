@@ -27,6 +27,15 @@
         android:layout_marginTop="10dp"
         android:scaleType="centerInside"
         />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/decrypt_BTN_decrypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Decrypt Data"
+        android:layout_below="@+id/decrypt_img_attached"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
 
     <TextView
         android:id="@+id/decrypt_TXT_encryptedData"

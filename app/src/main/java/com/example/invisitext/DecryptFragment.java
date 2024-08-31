@@ -1,12 +1,11 @@
 package com.example.invisitext;
 
-import android.app.Activity;
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -15,97 +14,91 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.drawable.Drawable;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import java.io.InputStream;
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.button.MaterialButton;
 
 public class DecryptFragment extends Fragment {
-    private Activity activity;
-    private ImageView decrypt_img_attached;
-    private TextView decrypt_TXT_encryptedData;
 
-    private ActivityResultLauncher<Intent> resultLauncher;
-
-    public DecryptFragment(Activity activity) {
-        // Required empty public constructor
-        this.activity = activity;
-    }
+    private DecryptUIHandler decryptUIHandler;
+    private ImageView decryptImageAttached;
+    private TextView decryptText;
+    private Bitmap selectedImage;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ImageEncryption imageEncryption = new ImageEncryption();
+        ImageProcessor imageProcessor = new ImageProcessor(requireContext(), imageEncryption);
+        decryptUIHandler = new DecryptUIHandler(requireContext(), imageProcessor);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_decrypt, container, false);
-        findViews(root);
-        initVars();
+        setupUI(root);
         return root;
     }
 
+    private void setupUI(View root) {
+        decryptImageAttached = root.findViewById(R.id.decrypt_img_attached);
+        decryptText = root.findViewById(R.id.decrypt_TXT_encryptedData);
+        MaterialButton decryptButton = root.findViewById(R.id.decrypt_BTN_decrypt);
 
-    private void initVars() {
-        registerResult();
-        decrypt_img_attached.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(activity, android.Manifest.permission.READ_MEDIA_IMAGES)
-                        == PackageManager.PERMISSION_GRANTED){
-                    Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
-                    resultLauncher.launch(intent);
-                }else {
-                    Toast.makeText(activity, "No permissions to access gallery!", Toast.LENGTH_LONG).show();
-                }
+        decryptImageAttached.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                pickImageFromGallery();
+            } else {
+                Toast.makeText(requireContext(), "No permissions to access gallery!", Toast.LENGTH_LONG).show();
+            }
+        });
 
+        decryptButton.setOnClickListener(v -> {
+            if (selectedImage != null) {
+                decryptUIHandler.decryptImageAsync(selectedImage, decryptedText -> {
+                    requireActivity().runOnUiThread(() -> decryptText.setText(decryptedText));
+                });
+            } else {
+                Toast.makeText(requireContext(), "Please select an image first.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void findViews(View root) {
-        decrypt_img_attached = root.findViewById(R.id.decrypt_img_attached);
-        decrypt_TXT_encryptedData = root.findViewById(R.id.decrypt_TXT_encryptedData);
+    private void pickImageFromGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 101);
     }
 
-    public void registerResult() {
-        resultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        try{
-                            Uri imageUri = result.getData().getData();
-                            InputStream inputStream =activity.getContentResolver().openInputStream(imageUri);
-                            Bitmap selectedImage = BitmapFactory.decodeStream(inputStream);
-                            inputStream.close();
-                            decrypt_img_attached.setImageBitmap(selectedImage);
-                            try{
-                                String text = ImageEncryption.decryptText(selectedImage);
-                                decrypt_TXT_encryptedData.setText(text);
-                            }catch (Exception err){
-                                System.out.println(err.getMessage());
-                                decrypt_TXT_encryptedData.setText("No data encrypted!");
-                            }
-
-
-                        }catch (Exception e){
-                            Toast.makeText(activity, "No image selected!", Toast.LENGTH_LONG).show();
-                            decrypt_TXT_encryptedData.setText("");
-                            decrypt_img_attached.setImageResource(R.drawable.attach_image);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101 && resultCode == RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            Glide.with(this)
+                    .asBitmap()
+                    .load(imageUri)
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            selectedImage = resource;
+                            decryptImageAttached.setImageBitmap(selectedImage);
                         }
-                    }
-                }
-        );
-    }
 
-    public void clean(){
-        decrypt_img_attached.setImageResource(R.drawable.attach_image);
-        decrypt_TXT_encryptedData.setText("");
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                            // Очищение ресурсов, если требуется
+                        }
+                    });
+        }
     }
 }
