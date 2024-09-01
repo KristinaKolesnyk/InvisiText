@@ -40,6 +40,3 @@
 - **Step 1:** Attach an image containing encrypted text.
 - **Step 2:** The app will automatically extract and display the hidden text on your screen.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
