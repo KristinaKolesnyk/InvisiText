@@ -1,6 +1,6 @@
 # InvisiText
 
-**InvisiText** is an Android application that allows you to hide and extract text messages within images using steganography.
+**InvisiText** is a powerful Android application that leverages steganography to securely hide and retrieve text messages within images. Whether you want to send secret messages or store confidential information in plain sight, InvisiText makes it easy and secure. The app features a sleek, modern interface, ensuring that the process of hiding and revealing text is as seamless as possible.
 
 ## Key Features
 
@@ -8,6 +8,8 @@
 - **Decrypt Text from Images:** Extract hidden messages from images.
 - **Modern Interface:** Simple and user-friendly interface using Material Design.
 - **Security:** Text is encrypted and stored within images.
+- **Support for Various Image Formats:** Works with common image formats such as PNG and JPEG.
+- **No Visible Changes to Images:** The encrypted images look identical to the original images, providing an additional layer of security.
 
 ## Installation
 
@@ -29,7 +31,7 @@
 
 - **Step 1:** Enter the text you want to encrypt.
 - **Step 2:** Attach an image from your gallery.
-- **Step 3:** Click "Encrypt Data". The encrypted image is saved to your device, embedding your text securely within it.
+- **Step 3:** Click "Encrypt". The encrypted image is saved to your device, embedding your text securely within it.
 
 ### Decrypting Text
 <img height="500" alt="IMG_3853" src="https://github.com/user-attachments/assets/d92b6d31-2152-43f2-a3b3-3ffeea65a0df">
