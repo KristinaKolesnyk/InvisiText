@@ -46,7 +46,7 @@ public class EncryptTextFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_encrypt, container, false);
+        View root = inflater.inflate(R.layout.encrypt_layout, container, false);
         initializeViews(root);
         registerActivityResult();
         setupEncryptButtonListener();
@@ -55,9 +55,9 @@ public class EncryptTextFragment extends Fragment {
     }
 
     private void initializeViews(View root) {
-        encryptBtnEncrypt = root.findViewById(R.id.encrypt_BTN_encrypt);
-        encryptImgAttached = root.findViewById(R.id.encrypt_img_attached);
-        encryptTxtText = root.findViewById(R.id.encrypt_TXT_text);
+        encryptBtnEncrypt = root.findViewById(R.id.encryptActionButton);
+        encryptImgAttached = root.findViewById(R.id.encryptAttachedImageView);
+        encryptTxtText = root.findViewById(R.id.encryptInputEditText);
     }
 
     private void setupEncryptButtonListener() {

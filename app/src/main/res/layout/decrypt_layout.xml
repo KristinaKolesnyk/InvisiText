@@ -1,4 +1,5 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,43 +7,42 @@
     tools:context=".DecryptTextFragment">
 
     <TextView
-        android:id="@+id/decrypt_TXT_title"
+        android:id="@+id/decryptTitleTextView"
+        style="@style/TextAppearance.App.Headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/decrypt_data_from_image"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/decrypt_img_attached"
+        android:id="@+id/decryptAttachedImageView"
+        style="@style/CustomImageViewStyle"
         android:layout_width="0dp"
         android:layout_height="450dp"
         android:layout_margin="16dp"
-        android:background="@drawable/image_background"
-        android:scaleType="centerInside"
         android:src="@drawable/download"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/decrypt_TXT_title" />
+        app:layout_constraintTop_toBottomOf="@id/decryptTitleTextView" />
 
-    <TextView
-        android:id="@+id/decrypt_TXT_encryptedData"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Text to decript"
-        android:inputType="textMultiLine"
-        android:lines="5"
-        android:scrollbars="vertical"
-        android:textColor="?attr/colorPrimaryDark"
-        android:textSize="18sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/text_to_decrypt_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/decrypt_img_attached" />
+        app:layout_constraintTop_toBottomOf="@id/decryptAttachedImageView">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/decryptEncryptedDataTextView"
+            style="@style/TextAppearance.App.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

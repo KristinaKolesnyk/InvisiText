@@ -6,59 +6,52 @@
     tools:context=".EncryptTextFragment">
 
     <TextView
-        android:id="@+id/encrypt_TXT_title"
+        android:id="@+id/encryptTitleTextView"
+        style="@style/TextAppearance.App.Headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/encrypt_data_in_image"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/encryptAttachedImageView"
+        style="@style/CustomImageViewStyle"
+        android:layout_width="0dp"
+        android:layout_height="450dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/download"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/encryptTitleTextView" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:hint="@string/text_to_encrypt_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/encrypt_TXT_title">
+        app:layout_constraintTop_toBottomOf="@id/encryptAttachedImageView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/encrypt_TXT_text"
+            android:id="@+id/encryptInputEditText"
+            style="@style/TextAppearance.App.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:scrollbars="vertical"
-            android:textColor="@color/colorTextPrimary"
-            android:backgroundTint="@color/colorPrimary"/>
+            android:backgroundTint="@color/colorPrimary" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
-        android:id="@+id/encrypt_img_attached"
-        android:layout_width="0dp"
-        android:layout_height="450dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/image_background"
-        android:scaleType="centerInside"
-        android:src="@drawable/download"
-        app:layout_constraintBottom_toTopOf="@id/encrypt_BTN_encrypt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/encrypt_BTN_encrypt"
+        android:id="@+id/encryptActionButton"
+        style="@style/Widget.AppTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/encrypt_data"
-        android:textColor="@color/colorBackground"
-        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

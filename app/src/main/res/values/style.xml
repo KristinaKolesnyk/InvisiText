@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- Базовая тема приложения -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:buttonStyle">@style/Widget.AppTheme.Button</item>
+    </style>
+
+    <!-- Стили для текста -->
+    <style name="TextAppearance.App.Headline" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.App.Body" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="TextAppearance.App.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <!-- Стиль для кнопок -->
+    <style name="Widget.AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorBackground</item>
+    </style>
+
+    <!-- Стиль для ImageView -->
+    <style name="CustomImageViewStyle">
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:background">@drawable/image_background</item>
+    </style>
+
+
+</resources>

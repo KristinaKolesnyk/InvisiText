@@ -36,7 +36,7 @@ public class DecryptTextFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_decrypt, container, false);
+        View root = inflater.inflate(R.layout.decrypt_layout, container, false);
         initializeViews(root);
         registerActivityResult();
         setupImageClickListener();
@@ -44,8 +44,8 @@ public class DecryptTextFragment extends Fragment {
     }
 
     private void initializeViews(View root) {
-        decryptImgAttached = root.findViewById(R.id.decrypt_img_attached);
-        decryptTxtEncryptedData = root.findViewById(R.id.decrypt_TXT_encryptedData);
+        decryptImgAttached = root.findViewById(R.id.decryptAttachedImageView);
+        decryptTxtEncryptedData = root.findViewById(R.id.decryptEncryptedDataTextView);
     }
 
     private void setupImageClickListener() {

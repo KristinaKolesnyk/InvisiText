@@ -1,10 +1,27 @@
 <resources>
     <string name="app_name">InvisiText</string>
-    <string name="decrypt_data_from_image">Decrypt data from image</string>
-    <string name="encrypt_data_in_image">Encrypt data in image</string>
-    <string name="text_to_encrypt_hint">Text to encrypt...</string>
-    <string name="encrypt_data">Encrypt Data</string>
-    <string name="no_permissions_gallery">No permissions to access gallery!</string>
-    <string name="no_image_selected">No image selected!</string>
-    <string name="no_data_encrypted">No data encrypted!</string>
+
+    <!-- Main Activity -->
+    <string name="encrypt_data_in_image">Encrypt Data into Image</string>
+    <string name="decrypt_data_from_image">Decrypt Data from Image</string>
+    <string name="text_to_encrypt_hint">Enter text to encrypt...</string>
+    <string name="text_to_decrypt_hint">Decrypted text will appear here</string>
+    <string name="encrypt_data">Encrypt</string>
+    <string name="decrypt_data">Decrypt</string>
+
+    <!-- Notifications -->
+    <string name="encryption_success">Data encrypted successfully!</string>
+    <string name="decryption_success">Data decrypted successfully!</string>
+    <string name="encryption_error">Encryption failed. Please try again.</string>
+    <string name="decryption_error">Decryption failed. Please try again.</string>
+    <string name="image_not_attached">No image selected. Please attach an image.</string>
+    <string name="text_not_entered">No text entered. Please input text to encrypt.</string>
+    <string name="no_permission_gallery">Permission denied. Unable to access gallery.</string>
+    <string name="saving_image_error">Failed to save the image. Please try again.</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_screen_text">Welcome to InvisiText</string>
+
+    <!-- Miscellaneous -->
+    <string name="image_description">Image Preview</string>
 </resources>
