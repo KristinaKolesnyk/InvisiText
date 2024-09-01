@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,9 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.activity.result.ActivityResult;
@@ -28,6 +25,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.InputStream;
@@ -67,7 +65,7 @@ public class EncryptTextFragment extends Fragment {
             if (isInputValid()) {
                 Bitmap encryptedImage = SteganographyUtils.encryptTextIntoImage(selectedImageBitmap, encryptTxtText.getText().toString());
                 saveEncryptedImage(encryptedImage);
-                showToast("Encrypted image saved!");
+                showSnackbar(encryptBtnEncrypt, "Encrypted image saved!");
             }
         });
     }
@@ -81,7 +79,7 @@ public class EncryptTextFragment extends Fragment {
             if (isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES)) {
                 pickImage();
             } else {
-                showToast("No permissions to access gallery!");
+                showSnackbar(v, "No permissions to access gallery!");
             }
         });
     }
@@ -112,8 +110,8 @@ public class EncryptTextFragment extends Fragment {
     }
 
     private void handleImageError() {
-        showToast("No image selected!");
         clearData();
+        showSnackbar(encryptImgAttached, "No image selected!");
     }
 
     private void saveEncryptedImage(Bitmap bitmap) {
@@ -141,7 +139,7 @@ public class EncryptTextFragment extends Fragment {
     }
 
     private void handleSaveImageError(Exception e, Uri uri, ContentResolver contentResolver) {
-        showToast("Failed to save image: " + e.getMessage());
+        showSnackbar(encryptImgAttached, "Failed to save image: " + e.getMessage());
         if (uri != null) {
             contentResolver.delete(uri, null, null);
         }
@@ -151,8 +149,8 @@ public class EncryptTextFragment extends Fragment {
         return ContextCompat.checkSelfPermission(parentActivity, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void showToast(String message) {
-        Toast.makeText(parentActivity, message, Toast.LENGTH_LONG).show();
+    private void showSnackbar(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
 
     public void clearData() {

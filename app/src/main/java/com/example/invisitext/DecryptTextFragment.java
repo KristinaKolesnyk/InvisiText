@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
@@ -22,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.InputStream;
 
@@ -55,7 +55,7 @@ public class DecryptTextFragment extends Fragment {
             if (isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES)) {
                 pickImage();
             } else {
-                showToast("No permissions to access gallery!");
+                showSnackbar(v, "No permissions to access gallery!");
             }
         });
     }
@@ -100,12 +100,12 @@ public class DecryptTextFragment extends Fragment {
     }
 
     private void handleImageError() {
-        showToast("No image selected!");
         clearData();
+        showSnackbar(decryptImgAttached, "No image selected!");
     }
 
-    private void showToast(String message) {
-        Toast.makeText(parentActivity, message, Toast.LENGTH_LONG).show();
+    private void showSnackbar(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
 
     public void clearData() {
