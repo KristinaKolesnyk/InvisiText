@@ -1,4 +1,4 @@
-package com.example.invisitext;
+package com.example.invisitext.Fragments;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -24,6 +24,8 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
+import com.example.invisitext.R;
+import com.example.invisitext.Utility.SteganographyUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 

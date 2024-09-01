@@ -1,4 +1,4 @@
-package com.example.invisitext;
+package com.example.invisitext.Activities;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.invisitext.Fragments.DecryptTextFragment;
+import com.example.invisitext.Fragments.EncryptTextFragment;
+import com.example.invisitext.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

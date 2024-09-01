@@ -1,4 +1,4 @@
-package com.example.invisitext;
+package com.example.invisitext.Utility;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
