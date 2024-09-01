@@ -58,12 +58,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestGalleryPermissions() {
-        if (!isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES) &&
-                !isPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                            android.Manifest.permission.READ_MEDIA_IMAGES},
-                    GALLERY_PERMISSION_REQUEST_CODE);
+        if (!hasGalleryPermissions()) {
+            String[] permissions;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                permissions = new String[]{android.Manifest.permission.READ_MEDIA_IMAGES};
+            } else {
+                permissions = new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE};
+            }
+            ActivityCompat.requestPermissions(this, permissions, GALLERY_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    private boolean hasGalleryPermissions() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            return isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES);
+        } else {
+            return isPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE);
         }
     }
 
@@ -75,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == GALLERY_PERMISSION_REQUEST_CODE &&
-                !(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                !(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
             requestGalleryPermissions();
         }
     }

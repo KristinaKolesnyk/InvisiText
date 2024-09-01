@@ -1,5 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Пастельные основные цвета -->
+    <color name="colorPrimary">#A8DADC</color> <!-- Пастельный голубой -->
+    <color name="colorPrimaryDark">#457B9D</color> <!-- Темный пастельный синий -->
+    <color name="colorAccent">#F4A261</color> <!-- Пастельный оранжевый -->
+    <color name="colorIcon">#82999B</color> <!-- Пастельный оранжевый -->
+
+    <!-- Дополнительные пастельные цвета -->
+    <color name="colorBackground">#F1FAEE</color> <!-- Пастельный кремовый -->
+    <color name="colorTextPrimary">#1D3557</color> <!-- Темный пастельный синий для текста -->
+    <color name="colorTextSecondary">#457B9D</color> <!-- Вторичный цвет для текста -->
+    <color name="colorError">#E63946</color> <!-- Пастельный красный для ошибок -->
+
 </resources>

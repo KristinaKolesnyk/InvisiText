@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.activity.result.ActivityResult;
@@ -27,7 +25,7 @@ import java.io.InputStream;
 
 public class DecryptTextFragment extends Fragment {
 
-    private Activity parentActivity;
+    private final Activity parentActivity;
     private ImageView decryptImgAttached;
     private TextView decryptTxtEncryptedData;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -109,7 +107,7 @@ public class DecryptTextFragment extends Fragment {
     }
 
     public void clearData() {
-        decryptImgAttached.setImageResource(R.drawable.attach_image);
+        decryptImgAttached.setImageResource(R.drawable.download);
         decryptTxtEncryptedData.setText("");
     }
 }

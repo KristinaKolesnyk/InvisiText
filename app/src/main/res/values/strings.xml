@@ -1,18 +1,10 @@
 <resources>
     <string name="app_name">InvisiText</string>
-        <string name="image_description">Attached Image</string>
-        <string name="decrypted_text">Decrypted Text</string>
-        <string name="enter_text_to_encrypt">Enter Text to Encrypt</string>
-        <string name="encrypt_button_text">Encrypt</string>
-        <string name="attach_image_button_text">Attach Image</string>
-        <string name="decrypt_button_text">Decrypt</string>
-        <string name="enter_encryption_key">Enter Encryption Key</string>
-        <string name="encryption_success">Encryption Successful</string>
-        <string name="decryption_success">Decryption Successful</string>
-        <string name="encryption_error">Encryption Error</string>
-        <string name="decryption_error">Decryption Error</string>
-        <string name="image_not_attached">No image attached</string>
-        <string name="text_not_entered">No text entered</string>
-        <string name="key_not_entered">No key entered</string>
-
+    <string name="decrypt_data_from_image">Decrypt data from image</string>
+    <string name="encrypt_data_in_image">Encrypt data in image</string>
+    <string name="text_to_encrypt_hint">Text to encrypt...</string>
+    <string name="encrypt_data">Encrypt Data</string>
+    <string name="no_permissions_gallery">No permissions to access gallery!</string>
+    <string name="no_image_selected">No image selected!</string>
+    <string name="no_data_encrypted">No data encrypted!</string>
 </resources>

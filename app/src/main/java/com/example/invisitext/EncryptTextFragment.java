@@ -37,7 +37,7 @@ public class EncryptTextFragment extends Fragment {
     private ImageView encryptImgAttached;
     private EditText encryptTxtText;
     private Bitmap selectedImageBitmap;
-    private Activity parentActivity;
+    private final Activity parentActivity;
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     public EncryptTextFragment(Activity parentActivity) {
@@ -154,7 +154,7 @@ public class EncryptTextFragment extends Fragment {
     }
 
     public void clearData() {
-        encryptImgAttached.setImageResource(R.drawable.attach_image);
+        encryptImgAttached.setImageResource(R.drawable.download);
         encryptTxtText.setText("");
     }
 }
