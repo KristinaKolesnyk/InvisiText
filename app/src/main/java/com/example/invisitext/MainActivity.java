@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    private final int GALLERY_PERMISSION_REQUEST_CODE = 100;
+    private static final int GALLERY_PERMISSION_REQUEST_CODE = 100;
 
     private BottomNavigationView bottomNavigationView;
     private EncryptTextFragment encryptTextFragment;
@@ -30,35 +30,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViews();
-        initializeViews();
+        initializeFragments();
         requestGalleryPermissions();
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+    }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.action_encrypt) {
-                    frameDecrypt.setVisibility(View.INVISIBLE);
-                    frameEncrypt.setVisibility(View.VISIBLE);
-                    encryptTextFragment.clearData();
-                    return true;
-                } else if (item.getItemId() == R.id.action_decrypt) {
-                    frameDecrypt.setVisibility(View.VISIBLE);
-                    frameEncrypt.setVisibility(View.INVISIBLE);
-                    decryptTextFragment.clearData();
-                    return true;
-                }
-                return false;
-            }
-        });
+    private void findViews() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        frameEncrypt = findViewById(R.id.frame_encrypt);
+        frameDecrypt = findViewById(R.id.frame_decrypt);
+    }
 
+    private void initializeFragments() {
+        encryptTextFragment = new EncryptTextFragment(this);
+        decryptTextFragment = new DecryptTextFragment(this);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.frame_encrypt, encryptTextFragment)
+                .commit();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.frame_decrypt, decryptTextFragment)
+                .commit();
+
+        frameDecrypt.setVisibility(View.INVISIBLE);
+        frameEncrypt.setVisibility(View.VISIBLE);
     }
 
     private void requestGalleryPermissions() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_IMAGES)
-                != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (!isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES) &&
+                !isPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
                             android.Manifest.permission.READ_MEDIA_IMAGES},
@@ -66,40 +67,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == GALLERY_PERMISSION_REQUEST_CODE) {
-            // Check if the permissions were granted
-            if (!(grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
-
-                requestGalleryPermissions();
-            }
-        }
-
+    private boolean isPermissionGranted(String permission) {
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void initializeViews() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == GALLERY_PERMISSION_REQUEST_CODE &&
+                !(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+            requestGalleryPermissions();
+        }
+    }
 
-        encryptTextFragment = new EncryptTextFragment(this);
-        decryptTextFragment = new DecryptTextFragment(this);
+    private boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_encrypt) {
+            showEncryptFragment();
+            return true;
+        } else if (item.getItemId() == R.id.action_decrypt) {
+            showDecryptFragment();
+            return true;
+        }
+        return false;
+    }
 
-
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_encrypt, encryptTextFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_decrypt, decryptTextFragment).commit();
-
+    private void showEncryptFragment() {
         frameDecrypt.setVisibility(View.INVISIBLE);
         frameEncrypt.setVisibility(View.VISIBLE);
+        encryptTextFragment.clearData();
     }
 
-    private void findViews() {
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        frameEncrypt = findViewById(R.id.frame_encrypt);
-        frameDecrypt = findViewById(R.id.frame_decrypt);
-
+    private void showDecryptFragment() {
+        frameDecrypt.setVisibility(View.VISIBLE);
+        frameEncrypt.setVisibility(View.INVISIBLE);
+        decryptTextFragment.clearData();
     }
 }

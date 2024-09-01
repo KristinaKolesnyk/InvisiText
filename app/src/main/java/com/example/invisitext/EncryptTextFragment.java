@@ -20,13 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -45,7 +44,6 @@ public class EncryptTextFragment extends Fragment {
 
     public EncryptTextFragment(Activity parentActivity) {
         this.parentActivity = parentActivity;
-        this.selectedImageBitmap = null;
     }
 
     @Override
@@ -65,14 +63,11 @@ public class EncryptTextFragment extends Fragment {
     }
 
     private void setupEncryptButtonListener() {
-        encryptBtnEncrypt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isInputValid()) {
-                    Bitmap encryptedImage = SteganographyUtils.encryptTextIntoImage(selectedImageBitmap, encryptTxtText.getText().toString());
-                    saveEncryptedImage(encryptedImage);
-                    showToast("Encrypted image saved!");
-                }
+        encryptBtnEncrypt.setOnClickListener(v -> {
+            if (isInputValid()) {
+                Bitmap encryptedImage = SteganographyUtils.encryptTextIntoImage(selectedImageBitmap, encryptTxtText.getText().toString());
+                saveEncryptedImage(encryptedImage);
+                showToast("Encrypted image saved!");
             }
         });
     }
@@ -82,15 +77,11 @@ public class EncryptTextFragment extends Fragment {
     }
 
     private void setupImageClickListener() {
-        encryptImgAttached.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-            @Override
-            public void onClick(View v) {
-                if (isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES)) {
-                    pickImage();
-                } else {
-                    showToast("No permissions to access gallery!");
-                }
+        encryptImgAttached.setOnClickListener(v -> {
+            if (isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES)) {
+                pickImage();
+            } else {
+                showToast("No permissions to access gallery!");
             }
         });
     }
@@ -103,12 +94,7 @@ public class EncryptTextFragment extends Fragment {
     private void registerActivityResult() {
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        handleImageResult(result);
-                    }
-                }
+                this::handleImageResult
         );
     }
 

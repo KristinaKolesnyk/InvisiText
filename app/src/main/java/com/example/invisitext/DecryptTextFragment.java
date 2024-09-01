@@ -16,13 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import java.io.InputStream;
 
@@ -52,15 +51,11 @@ public class DecryptTextFragment extends Fragment {
     }
 
     private void setupImageClickListener() {
-        decryptImgAttached.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-            @Override
-            public void onClick(View v) {
-                if (isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES)) {
-                    pickImage();
-                } else {
-                    showToast("No permissions to access gallery!");
-                }
+        decryptImgAttached.setOnClickListener(v -> {
+            if (isPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES)) {
+                pickImage();
+            } else {
+                showToast("No permissions to access gallery!");
             }
         });
     }
@@ -77,12 +72,7 @@ public class DecryptTextFragment extends Fragment {
     private void registerActivityResult() {
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        handleImageResult(result);
-                    }
-                }
+                this::handleImageResult
         );
     }
 
