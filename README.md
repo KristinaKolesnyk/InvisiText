@@ -22,21 +22,21 @@
    - Connect an Android device or launch an emulator.
    - Press the `Run` button in Android Studio.
 
-## Usage
+## Screenshots
 
 ### Encrypting Text
+<img height="500" alt="IMG_3853" src="https://github.com/user-attachments/assets/a463584b-6102-4f1a-8b1c-f0eab2bb49ec">
 
-1. Go to the "Encrypt" tab.
-2. Enter the text you want to encrypt.
-3. Attach an image.
-4. Click "Encrypt Data".
-5. The encrypted image will be saved to your device.
+- **Step 1:** Enter the text you want to encrypt.
+- **Step 2:** Attach an image from your gallery.
+- **Step 3:** Click "Encrypt Data". The encrypted image is saved to your device, embedding your text securely within it.
 
 ### Decrypting Text
+<img height="500" alt="IMG_3853" src="https://github.com/user-attachments/assets/d92b6d31-2152-43f2-a3b3-3ffeea65a0df">
 
-1. Go to the "Decrypt" tab.
-2. Attach an image containing encrypted text.
-3. The text will be automatically extracted and displayed on the screen.
+
+- **Step 1:** Attach an image containing encrypted text.
+- **Step 2:** The app will automatically extract and display the hidden text on your screen.
 
 ## License
 
