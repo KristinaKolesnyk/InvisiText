@@ -15,7 +15,7 @@
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/kristinakolesnyk/invisitext.git
+   git clone https://github.com/KristinaKolesnyk/InvisiText.git
    ```
 2. **Open in Android Studio:**
    - Open the project in Android Studio.
