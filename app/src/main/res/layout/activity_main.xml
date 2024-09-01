@@ -8,7 +8,14 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/frame_container"
+        android:id="@+id/frame_encrypt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation"
+        />
+
+    <FrameLayout
+        android:id="@+id/frame_decrypt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation"

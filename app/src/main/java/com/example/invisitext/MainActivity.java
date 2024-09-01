@@ -1,68 +1,105 @@
 package com.example.invisitext;
 
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int PERMISSION_REQUEST_CODE = 100;
+    private final int GALLERY_PERMISSION_REQUEST_CODE = 100;
+
+    private BottomNavigationView bottomNavigationView;
+    private EncryptTextFragment encryptTextFragment;
+    private DecryptTextFragment decryptTextFragment;
+    private FrameLayout frameEncrypt, frameDecrypt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        findViews();
+        initializeViews();
+        requestGalleryPermissions();
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.action_encrypt) {
+                    frameDecrypt.setVisibility(View.INVISIBLE);
+                    frameEncrypt.setVisibility(View.VISIBLE);
+                    encryptTextFragment.clearData();
+                    return true;
+                } else if (item.getItemId() == R.id.action_decrypt) {
+                    frameDecrypt.setVisibility(View.VISIBLE);
+                    frameEncrypt.setVisibility(View.INVISIBLE);
+                    decryptTextFragment.clearData();
+                    return true;
+                }
+                return false;
             }
-        }
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            Fragment selectedFragment = null;
-
-            if (item.getItemId() == R.id.navigation_encrypt) {
-                selectedFragment = new EncryptFragment();
-            } else if (item.getItemId() == R.id.navigation_decrypt) {
-                selectedFragment = new DecryptFragment();
-            }
-
-            if (selectedFragment != null) {
-                loadFragment(selectedFragment);
-            }
-
-            return true;
         });
 
-        if (savedInstanceState == null) {
-            bottomNavigationView.setSelectedItemId(R.id.navigation_encrypt);
-        }
     }
 
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.commit();
+    private void requestGalleryPermissions() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_IMAGES)
+                != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                            android.Manifest.permission.READ_MEDIA_IMAGES},
+                    GALLERY_PERMISSION_REQUEST_CODE);
+        }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission denied to access gallery", Toast.LENGTH_SHORT).show();
+        if (requestCode == GALLERY_PERMISSION_REQUEST_CODE) {
+            // Check if the permissions were granted
+            if (!(grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+
+                requestGalleryPermissions();
             }
         }
+
+    }
+
+    private void initializeViews() {
+
+        encryptTextFragment = new EncryptTextFragment(this);
+        decryptTextFragment = new DecryptTextFragment(this);
+
+
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_encrypt, encryptTextFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_decrypt, decryptTextFragment).commit();
+
+        frameDecrypt.setVisibility(View.INVISIBLE);
+        frameEncrypt.setVisibility(View.VISIBLE);
+    }
+
+    private void findViews() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        frameEncrypt = findViewById(R.id.frame_encrypt);
+        frameDecrypt = findViewById(R.id.frame_decrypt);
+
     }
 }
