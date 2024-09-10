@@ -38,3 +38,7 @@
 3. **Run the App:**
    - Connect an Android device or launch an emulator.
    - Press the `Run` button in Android Studio.
+
+## Acknowledgements
+
+I hope this project helps bring clarity and enjoyment to decision-making processes. Thank you for taking the time to explore InvisiText!
